@@ -81,7 +81,7 @@ const AllNews = ({ allNews }) => {
                   : news?.description}
               </p>
               <Link href={`/news/${news?.id}`}>
-                <p
+                <button
                   style={{
                     fontSize: "15px",
                     marginTop: "20px",
@@ -95,7 +95,7 @@ const AllNews = ({ allNews }) => {
                   }}
                 >
                   Keep Reading <ArrowRightOutlined />
-                </p>
+                </button>
               </Link>
             </Card>
           </Col>
