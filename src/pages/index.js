@@ -48,10 +48,12 @@ HomePage.getLayout = function getLayout(page) {
 export const getStaticProps = async () => {
   const res = await fetch("http://localhost:5000/news");
   const data = await res.json();
-  console.log(data);  //client side e run korena. tai browser console e kono data show korbe na. data show korbe jei terminal theke project run hocche sei terminal e
+  //client side e run korena. tai browser console e kono data show korbe na. data show korbe jei terminal theke project run hocche sei terminal e
+  console.log(data);  
   return {
     props:{
       allNews:data,
-    }
+    },
+    revalidate : 3,  //kotokkhn por por ei page ta rebuild hobe
   };
 };
