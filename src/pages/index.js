@@ -1,12 +1,22 @@
 import Head from "next/head";
 import RootLayout from "@/components/Layouts/RootLayout";
-import Banner from "@/components/UI/Banner";
+// import Banner from "@/components/UI/Banner";
 import AllNews from "@/components/UI/AllNews";
+import { useGetNewsesQuery } from "@/redux/api/api";
+import dynamic from "next/dynamic";
 
 
 
 const HomePage = ({allNews}) => {
+  // data from rtk query
+  const { data, isLoading, isError, error } = useGetNewsesQuery();
   // console.log(allNews);
+
+  const DynamicBanner = dynamic(() => import("@/components/UI/Banner"), {
+    loading: () => <h1>Loading...</h1>,
+    ssr: false,  //server side rendering jate na hoy
+  });
+
   return (
     <>
       <Head>
@@ -18,7 +28,7 @@ const HomePage = ({allNews}) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Banner />
+      <DynamicBanner />
       <AllNews allNews={allNews}/>
     </>
   );
@@ -47,14 +57,22 @@ HomePage.getLayout = function getLayout(page) {
 
 // data fetching(static side generation, build time e file gula geenrate hocche)
 export const getServerSideProps = async () => {
-  const res = await fetch("http://localhost:5000/news");
+
+
+  const res = await fetch("http://localhost:5000/news"); //data from internal json server
+  // const res = await fetch("http://localhost:3000/api/news"); // internal API connected with mongoDB
   const data = await res.json();
+
+
   //client side e run korena. tai browser console e kono data show korbe na. data show korbe jei terminal theke project run hocche sei terminal e
   // console.log(data);  
+
   return {
     props:{
-      allNews:data,
+      allNews:data,   //data from internal dbms
+      // allNews: data.data,  // when using internal API connected with mongoDB
     },
+
     // revalidate : 3,  //kotokkhn por por ei page ta rebuild hobe. ssr e proyojon hoyna.
   };
 };
