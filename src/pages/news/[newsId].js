@@ -87,7 +87,7 @@ export const getStaticPaths = async () => {
   return { paths, fallback: false };
 };
 */ 
-
+// server side rendering
 export const getServerSideProps = async (context) => {
   const { params } = context;
   const res = await fetch(`http://localhost:5000/news/${params.newsId}`);

@@ -4,6 +4,7 @@ import Banner from "@/components/UI/Banner";
 import AllNews from "@/components/UI/AllNews";
 
 
+
 const HomePage = ({allNews}) => {
   // console.log(allNews);
   return (
@@ -44,8 +45,8 @@ HomePage.getLayout = function getLayout(page) {
  * 
  */
 
-// data fetching
-export const getStaticProps = async () => {
+// data fetching(static side generation, build time e file gula geenrate hocche)
+export const getServerSideProps = async () => {
   const res = await fetch("http://localhost:5000/news");
   const data = await res.json();
   //client side e run korena. tai browser console e kono data show korbe na. data show korbe jei terminal theke project run hocche sei terminal e
@@ -54,6 +55,6 @@ export const getStaticProps = async () => {
     props:{
       allNews:data,
     },
-    revalidate : 3,  //kotokkhn por por ei page ta rebuild hobe
+    // revalidate : 3,  //kotokkhn por por ei page ta rebuild hobe. ssr e proyojon hoyna.
   };
 };
